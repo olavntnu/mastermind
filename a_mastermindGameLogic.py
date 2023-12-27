@@ -7,12 +7,17 @@ class MastermindLogic:
     colours = {1:'Green', 2:'Blue', 3:'Yellow', 4:'White', 5:'Purple', 6:'Red'}
 
     @staticmethod
-    def generateCode():
-        return [r.randint(1,6),
-                r.randint(1,6),
-                r.randint(1,6),
-                r.randint(1,6)
-               ]
+    def generateCode(custom_code=None):
+        if custom_code is not None:
+            # If a custom_code is provided, return that list
+            return custom_code
+        else:
+            # Otherwise, generate a random code
+            return [r.randint(1, 6),
+                    r.randint(1, 6),
+                    r.randint(1, 6),
+                    r.randint(1, 6)
+                   ]
     @staticmethod
     def checkGuess(code, guess):
         return code == guess
@@ -38,51 +43,4 @@ class MastermindLogic:
             newGuess.pop(0)
 
     
-        return [subtractedList.count(0), whiteCount] #Black Pins, White Pins (Correct Pin/Correct Pos, Correct Pin/Wrong Pos)
-
-class GameLogic:
-
-    solution = []
-    guesses = []
-    correct = False
-
-    gameResult = ()
-
-    def __init__(self):
-        self.solution = MastermindLogic.generateCode()
-        self.guesses = []
-        self.correct = False
-        
-        print(self.solution)
-
-        self.playGame()
-    
-    def playGame(self):
-
-        while True:
-            if len(self.guesses) == 10: 
-                print ("Too many guesses, you lost")
-                break
-
-            self.guesses.append(self.askForGuess())
-
-            if MastermindLogic.checkGuess(self.solution, self.guesses[-1]):
-               print("Correct, you win") 
-               self.correct = True
-               break
-            else: print(MastermindLogic.placePins(self.solution, self.guesses[-1]))
-        self.gameResult = (self.correct, len(self.guesses))
-        
-
-
-    def askForGuess(self):
-        print ("Input int guess:")
-
-        guess = []
-
-        for i in range (4):
-            guess.append(int(input()))
-
-        return guess
-    
-    
+        return (subtractedList.count(0), whiteCount) #Black Pins, White Pins (Correct Pin/Correct Pos, Correct Pin/Wrong Pos)
